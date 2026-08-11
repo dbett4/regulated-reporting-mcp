@@ -4,6 +4,8 @@
 
 An MCP server for a regulated reporting platform (Workiva), extracted from production tooling used on live government financial reports — with policy-gated writes, receipt-backed verification, and a credential-free mock mode you can run in under a minute.
 
+![Mock-mode demo: list, read, gated write, verified readback, receipt](docs/demo.gif)
+
 ```
 $ pip install -e . && workiva-mcp-demo
 
