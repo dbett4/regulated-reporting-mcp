@@ -1,14 +1,16 @@
-# Proof map
+# How to check the claims
 
-This page maps each portfolio claim to a command, an oracle, and its limit. Run the complete packet from a development install with:
+Run every check from a development install with:
 
 ```bash
 ./scripts/proof.sh
 ```
 
-The script runs lint, checks exact contract-manifest coverage, executes all 126 credential-free tests, and runs the end-to-end mock demo. It exits nonzero on the first failed claim and prints `PROOF_PASS` only after every oracle passes.
+The script runs lint, checks exact contract-manifest coverage, executes all 126
+credential-free tests, and runs the full mock demo. It stops at the first
+failure and prints `PROOF_PASS` only when everything passes.
 
-| Claim | Native proof | Oracle | Boundary |
+| Claim | Run | Pass condition | Limit |
 |---|---|---|---|
 | The public entry point uses the guarded compact dispatcher | `pytest tests/test_entrypoint_safety.py` | Default server name is `workiva-mcp-compact` | A raw registry remains available behind a named unsafe opt-in for isolated development |
 | Every registered implementation has a reviewed contract | `python scripts/generate_tool_contract_manifest.py --check` | Manifest and the 117-tool registry have exact set equality | Coverage does not mean every tool has readback; the contract says `receipt` or `readback` explicitly |
@@ -19,9 +21,10 @@ The script runs lint, checks exact contract-manifest coverage, executes all 126 
 | OAuth recovery, 429 backoff, pagination, and binary exports work | `pytest tests/test_http_client.py tests/test_reapi.py` | Injected transport assertions | Credential-free transport proof, not a live Workiva availability claim |
 | A complete gated write emits a payload-redacted, create-once local receipt | `python -m workiva_mcp.demo` and `pytest tests/test_execution_receipts.py` | Demo verifies gate refusal, retry, polling, and readback; tests verify secret/payload redaction, collision refusal, and exception receipts | FakeWorkiva uses synthetic data; local receipts are not signed or remotely immutable |
 
-## What this repository does not claim
+## Limits
 
 - The raw 117-tool registry is not policy-safe when served directly.
-- `proof: receipt` is evidence of an attempted, confirmed dispatch and its reported outcome—not state verification.
+- `proof: receipt` records a confirmed dispatch and the outcome it reported. It
+  does not verify upstream state.
 - The offline demo is not evidence of Workiva uptime, customer authorization, or a production deployment.
 - No client data, client credentials, or client-owned source code are included.
