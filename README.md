@@ -2,6 +2,12 @@
 
 [![CI](https://github.com/dbett4/regulated-reporting-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/dbett4/regulated-reporting-mcp/actions/workflows/ci.yml)
 
+> **Provenance.** Sanitized public extract published August 2026. Public git history
+> is publication history, not the original private development timeline. The City of
+> Riverton demo and all organizations are fictional. No client data or credentials
+> appear in this repository. Private client history remains confidential; public claims
+> are limited to inspectable artifacts.
+
 I built this MCP server around a problem I ran into while working on government
 financial reports in Workiva: a successful API response does not necessarily
 mean a change was applied, and an applied change has not necessarily been
