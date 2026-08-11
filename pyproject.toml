@@ -1,0 +1,54 @@
+[project]
+name = "regulated-reporting-mcp"
+version = "0.1.0"
+description = "Production MCP server for a regulated reporting platform (Workiva): OAuth2 client-credentials auth, async job polling, policy-gated writes, and receipt-backed readback verification — with a credential-free mock mode."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Dave Bettner", email = "dbett4@gmail.com" }]
+requires-python = ">=3.11"
+dependencies = [
+    "mcp>=1.27.0,<2",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=1.3.0",
+    "ruff>=0.9",
+]
+
+[project.scripts]
+workiva-mcp = "workiva_mcp.__main__:main"
+workiva-mcp-compact = "workiva_mcp.compact_server:main"
+workiva-mcp-demo = "workiva_mcp.demo:main"
+
+[project.urls]
+Homepage = "https://davebettner.com"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["workiva_mcp*"]
+
+[tool.setuptools.package-data]
+workiva_mcp = ["tool_contract_manifest.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "strict"
+filterwarnings = [
+    # pydantic_settings warns about the mcp SDK's own `lifespan` settings field
+    # on Python 3.14; upstream noise, not actionable in this package.
+    "ignore:Field 'lifespan' has an incomplete definition:UserWarning",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501", "E402", "E702", "E721", "E741", "F841"]

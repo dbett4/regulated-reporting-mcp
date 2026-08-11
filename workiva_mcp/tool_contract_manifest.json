@@ -1,0 +1,587 @@
+{
+  "workiva_approve_task": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_batch_edit_rich_text": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_bulk_edit_document_sections": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_chain_run": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_chains": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_copy_document_section": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_copy_sheet": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_create_anchor": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_create_destination_link": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_create_document_section": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_create_file": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_create_sheet": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_create_task": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_delete_document_section": {
+    "confirmation": "destructive",
+    "effect": "destructive",
+    "proof": "readback"
+  },
+  "workiva_delete_file": {
+    "confirmation": "destructive",
+    "effect": "destructive",
+    "proof": "readback"
+  },
+  "workiva_delete_sheet": {
+    "confirmation": "destructive",
+    "effect": "destructive",
+    "proof": "readback"
+  },
+  "workiva_delete_task": {
+    "confirmation": "destructive",
+    "effect": "destructive",
+    "proof": "readback"
+  },
+  "workiva_document_sections": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_duplicate_rich_text": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_edit_range_link": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_edit_table_structure": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_export_document": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_export_file": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_export_spreadsheet": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_export_style_guide": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_file_permissions": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_format_cells": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_full_link_flow": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_get_chain": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_document": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_document_section": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_file": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_organization": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_presentation": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_presentation_slide": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_range_link": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_range_link_destinations": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_sheet": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_spreadsheet": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_style_guide": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_table_columns": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_table_properties": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_table_rows": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_task": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_get_workspace": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_import_file": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_import_style_guide": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_list_chain_run_nodes": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_chain_runs": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_chains": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_document_sections": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_documents": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_files": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_organization_roles": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_organization_solutions": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_organization_users": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_organizations": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_presentation_layouts": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_presentation_slides": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_range_links": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_sheets": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_spreadsheets": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_tasks": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_workspace_groups": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_workspace_memberships": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_workspaces": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_organization": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_presentation_slides": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_publish_links": {
+    "confirmation": "external",
+    "effect": "external",
+    "proof": "readback"
+  },
+  "workiva_range_links": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_read_cells": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_read_rich_text_paragraphs": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_reapply_filters": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_reassign_task": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_reject_task": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_rich_text": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_run_chain": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_spreadsheet_sheets": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_style_guide": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_submit_task": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_table_properties": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_task_actions": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_tasks": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_update_file": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_update_presentation_slide": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_update_table_properties": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_update_task": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_batch_refresh_connections": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_cancel_query_run": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_connections": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_create_query": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_create_table": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_delete_file": {
+    "confirmation": "destructive",
+    "effect": "destructive",
+    "proof": "readback"
+  },
+  "workiva_wdata_delete_query": {
+    "confirmation": "destructive",
+    "effect": "destructive",
+    "proof": "readback"
+  },
+  "workiva_wdata_delete_table": {
+    "confirmation": "destructive",
+    "effect": "destructive",
+    "proof": "readback"
+  },
+  "workiva_wdata_describe_query": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_wdata_files": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_get_connection": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_wdata_get_file": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_wdata_get_query": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_wdata_get_query_result": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_wdata_get_table": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_wdata_list_connections": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_wdata_list_files": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_wdata_list_queries": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_wdata_list_tables": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_wdata_queries": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_query_run": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_refresh_connection": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_run_query": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_tables": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_update_table": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_upload_file": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_wdata_validate_query": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_workspace": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_write_cells": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  },
+  "workiva_write_verified": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
+  }
+}
