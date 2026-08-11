@@ -34,9 +34,10 @@ async def test_workiva_write_verified_writes_rows_and_reads_back(monkeypatch):
         ],
     ))
 
-    assert out["status"] == "verified"
+    assert out["status"] == "indeterminate"
     assert out["written_cells"] == 3
     assert out["verified_cells"] == 2
+    assert out["verification_complete"] is False
     assert out["formula_cells_unverified"] == [{"a1": "A3", "row": 2, "col": 0}]
     assert out["mismatches"] == []
     assert calls == [
@@ -71,6 +72,7 @@ async def test_workiva_write_verified_reports_missed_row_without_retry(monkeypat
     ))
 
     assert out["status"] == "mismatch"
+    assert out["verification_complete"] is True
     assert out["retried_ranges"] == []
     assert out["mismatches"] == [{"a1": "D5", "row": 4, "col": 3, "expected": "new", "actual": "old"}]
     assert put_ranges == ["D5:D5"]

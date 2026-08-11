@@ -33,3 +33,24 @@ def atomic_write_text(path: Path, text: str, encoding: str = "utf-8") -> None:
         except FileNotFoundError:
             pass
         raise
+
+
+def atomic_create_text(path: Path, text: str, encoding: str = "utf-8") -> None:
+    """Create a complete file atomically and refuse to replace an existing path.
+
+    The completed temporary file is hard-linked into place, so readers never
+    observe a partial destination and a collision raises ``FileExistsError``.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp_name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+    try:
+        with os.fdopen(fd, "w", encoding=encoding, newline="") as f:
+            f.write(text)
+            f.flush()
+            os.fsync(f.fileno())
+        os.link(tmp_name, path)
+    finally:
+        try:
+            os.unlink(tmp_name)
+        except FileNotFoundError:
+            pass

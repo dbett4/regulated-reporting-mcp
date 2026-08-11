@@ -376,9 +376,11 @@ async def call_tool(
     if not isinstance(arguments, dict):
         return json.dumps({"error": "arguments must be a JSON object"})
 
+    dispatch_started = False
     try:
         func = _load_callable(definition)
         _validate_arguments(func, arguments)
+        dispatch_started = True
         result = func(**arguments)
         if inspect.isawaitable(result):
             result = await result
@@ -394,6 +396,16 @@ async def call_tool(
             return rendered
         parsed = _maybe_json(rendered)
         state = _mutation_state(parsed)
+        proof_incomplete = contract.proof == "readback" and state in {
+            "applied_unverified",
+            "indeterminate",
+        }
+        if proof_incomplete:
+            # The mutation may already have reached Workiva, so this is not a
+            # pre-execution policy block and must not be reported as a clean
+            # failure. Fail closed on the outcome: preserve an indeterminate
+            # state and tell the caller that a separate readback is required.
+            state = "indeterminate"
         receipt = store_receipt(
             tool=definition.name,
             contract={"effect": contract.effect, "confirmation": contract.confirmation, "proof": contract.proof},
@@ -403,15 +415,52 @@ async def call_tool(
         )
         if isinstance(parsed, dict):
             parsed.setdefault("state", state)
+            if proof_incomplete:
+                parsed["state"] = state
+                parsed.setdefault("error", (
+                    f"{definition.name} promised readback proof but returned no "
+                    "verified or verification_failed outcome"
+                ))
+                parsed["proof_required"] = "readback"
+                parsed["proof_satisfied"] = False
             parsed["receipt_uri"] = receipt["uri"]
             return json.dumps(parsed, default=str)
-        return json.dumps({"state": state, "receipt_uri": receipt["uri"], "result": rendered}, default=str)
-    except Exception as exc:  # pragma: no cover - defensive boundary for MCP clients
-        return json.dumps({
+        response = {"state": state, "receipt_uri": receipt["uri"], "result": rendered}
+        if proof_incomplete:
+            response.update({
+                "error": (
+                    f"{definition.name} promised readback proof but returned no "
+                    "verified or verification_failed outcome"
+                ),
+                "proof_required": "readback",
+                "proof_satisfied": False,
+            })
+        return json.dumps(response, default=str)
+    except Exception as exc:  # defensive boundary for MCP clients
+        response = {
             "error": str(exc),
             "type": type(exc).__name__,
             "tool": definition.name,
-        })
+        }
+        if contract.effect != "read" and dispatch_started:
+            receipt = store_receipt(
+                tool=definition.name,
+                contract={
+                    "effect": contract.effect,
+                    "confirmation": contract.confirmation,
+                    "proof": contract.proof,
+                },
+                arguments=arguments,
+                state="indeterminate",
+                result=response,
+            )
+            response.update({
+                "state": "indeterminate",
+                "receipt_uri": receipt["uri"],
+                "proof_required": contract.proof,
+                "proof_satisfied": False,
+            })
+        return json.dumps(response)
 
 
 def _mutation_state(parsed: Any) -> str:
@@ -428,6 +477,8 @@ def _mutation_state(parsed: Any) -> str:
         return "verified"
     if status == "mismatch":
         return "verification_failed"
+    if status == "indeterminate":
+        return "indeterminate"
     return "applied_unverified"
 
 

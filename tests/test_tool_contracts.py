@@ -60,8 +60,8 @@ async def test_confirmation_classes_are_not_interchangeable(monkeypatch):
     async def fake_tool():
         return {"ok": True}
 
-    destructive = ToolContract(effect="destructive", confirmation="destructive", proof="readback")
-    external = ToolContract(effect="external", confirmation="external", proof="readback")
+    destructive = ToolContract(effect="destructive", confirmation="destructive", proof="receipt")
+    external = ToolContract(effect="external", confirmation="external", proof="receipt")
     monkeypatch.setattr(
         compact_tools,
         "_TOOL_CACHE",
@@ -84,7 +84,7 @@ async def test_confirmation_classes_are_not_interchangeable(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_batches_block_destructive_and_external_steps(monkeypatch):
-    destructive = ToolContract(effect="destructive", confirmation="destructive", proof="readback")
+    destructive = ToolContract(effect="destructive", confirmation="destructive", proof="receipt")
     monkeypatch.setattr(
         compact_tools,
         "_TOOL_CACHE",
@@ -96,3 +96,11 @@ async def test_batches_block_destructive_and_external_steps(monkeypatch):
     result = json.loads(await compact_tools.batch_call([{"name": "destroy", "arguments": {}}], confirm_write=True))
     assert result["results"][0]["policy_blocked"] is True
     assert "plan-digest approval" in result["results"][0]["error"]
+
+
+def test_manifest_distinguishes_receipts_from_readback():
+    definitions = compact_tools.get_tool_definitions()
+
+    assert definitions["workiva_write_cells"].contract.proof == "receipt"
+    assert definitions["workiva_format_cells"].contract.proof == "receipt"
+    assert definitions["workiva_write_verified"].contract.proof == "readback"

@@ -2,107 +2,107 @@
   "workiva_approve_task": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_batch_edit_rich_text": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_bulk_edit_document_sections": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_chain_run": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_chains": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_copy_document_section": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_copy_sheet": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_create_anchor": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_create_destination_link": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_create_document_section": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_create_file": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_create_sheet": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_create_task": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_delete_document_section": {
     "confirmation": "destructive",
     "effect": "destructive",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_delete_file": {
     "confirmation": "destructive",
     "effect": "destructive",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_delete_sheet": {
     "confirmation": "destructive",
     "effect": "destructive",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_delete_task": {
     "confirmation": "destructive",
     "effect": "destructive",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_document_sections": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_duplicate_rich_text": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_edit_range_link": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_edit_table_structure": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_export_document": {
     "confirmation": "none",
@@ -127,17 +127,17 @@
   "workiva_file_permissions": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_format_cells": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_full_link_flow": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_get_chain": {
     "confirmation": "none",
@@ -227,12 +227,12 @@
   "workiva_import_file": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_import_style_guide": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_list_chain_run_nodes": {
     "confirmation": "none",
@@ -332,22 +332,22 @@
   "workiva_organization": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_presentation_slides": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_publish_links": {
     "confirmation": "external",
     "effect": "external",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_range_links": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_read_cells": {
     "confirmation": "none",
@@ -362,117 +362,117 @@
   "workiva_reapply_filters": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_reassign_task": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_reject_task": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_rich_text": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_run_chain": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_spreadsheet_sheets": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_style_guide": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_submit_task": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_table_properties": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_task_actions": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_tasks": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_update_file": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_update_presentation_slide": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_update_table_properties": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_update_task": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_batch_refresh_connections": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_cancel_query_run": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_connections": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_create_query": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_create_table": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_delete_file": {
     "confirmation": "destructive",
     "effect": "destructive",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_delete_query": {
     "confirmation": "destructive",
     "effect": "destructive",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_delete_table": {
     "confirmation": "destructive",
     "effect": "destructive",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_describe_query": {
     "confirmation": "none",
@@ -482,7 +482,7 @@
   "workiva_wdata_files": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_get_connection": {
     "confirmation": "none",
@@ -532,37 +532,37 @@
   "workiva_wdata_queries": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_query_run": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_refresh_connection": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_run_query": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_tables": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_update_table": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_upload_file": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_wdata_validate_query": {
     "confirmation": "none",
@@ -572,12 +572,12 @@
   "workiva_workspace": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_write_cells": {
     "confirmation": "write",
     "effect": "write",
-    "proof": "readback"
+    "proof": "receipt"
   },
   "workiva_write_verified": {
     "confirmation": "write",

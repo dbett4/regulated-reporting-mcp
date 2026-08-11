@@ -14,7 +14,7 @@ from typing import Literal
 
 Effect = Literal["read", "write", "destructive", "external"]
 Confirmation = Literal["none", "write", "destructive", "external"]
-Proof = Literal["none", "readback"]
+Proof = Literal["none", "receipt", "readback"]
 
 _MANIFEST_PATH = Path(__file__).with_name("tool_contract_manifest.json")
 
@@ -47,12 +47,14 @@ def _load_manifest() -> dict[str, ToolContract]:
             raise ValueError(f"Invalid effect for {name}: {effect!r}")
         if confirmation not in {"none", "write", "destructive", "external"}:
             raise ValueError(f"Invalid confirmation for {name}: {confirmation!r}")
-        if proof not in {"none", "readback"}:
+        if proof not in {"none", "receipt", "readback"}:
             raise ValueError(f"Invalid proof for {name}: {proof!r}")
         if effect == "read" and (confirmation != "none" or proof != "none"):
             raise ValueError(f"Read contract {name} must require no confirmation/proof")
         if effect != "read" and confirmation == "none":
             raise ValueError(f"Mutating contract {name} must require confirmation")
+        if effect != "read" and proof == "none":
+            raise ValueError(f"Mutating contract {name} must require receipt or readback proof")
         contracts[name] = ToolContract(effect=effect, confirmation=confirmation, proof=proof)
     return contracts
 

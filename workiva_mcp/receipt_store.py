@@ -11,9 +11,17 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from workiva_mcp._io import atomic_write_text
+from workiva_mcp._io import atomic_create_text
 
 _SECRET_KEY = re.compile(r"(token|secret|password|api[_-]?key|authorization|cookie)", re.I)
+_PAYLOAD_KEY = re.compile(
+    r"(^|[_-])(value|values|formula|rawvalue|raw_value|content|body|text|description)($|[_-])",
+    re.I,
+)
+_SAFE_TARGET_KEY = re.compile(
+    r"(^|[_-])(id|ids|uuid|range|ranges|row|rows|col|cols|column|columns|index|indices|count|offset|limit|operation|method|mode|status|revision|version|type|action|api|family)($|[_-])",
+    re.I,
+)
 
 
 def receipt_root() -> Path:
@@ -26,11 +34,21 @@ def receipt_root() -> Path:
 def _redact(value: Any, key: str = "") -> Any:
     if _SECRET_KEY.search(key):
         return "[REDACTED]"
+    # Preserve identifiers even when their compound name contains a payload
+    # word (for example ``rich_text_id`` or ``content_id``). Secret-bearing
+    # identifiers remain redacted by the higher-priority check above.
+    if _SAFE_TARGET_KEY.search(key):
+        return value
+    if _PAYLOAD_KEY.search(key):
+        return "[REDACTED_PAYLOAD]"
     if isinstance(value, dict):
         return {str(k): _redact(v, str(k)) for k, v in value.items()}
     if isinstance(value, list):
         return [_redact(item) for item in value]
-    return value
+    # Receipts retain only structural target fields by default. Unknown scalar
+    # arguments are data, not metadata: a blacklist will inevitably miss SQL,
+    # runtime inputs, rich-text inserts, and future payload names.
+    return "[REDACTED_PAYLOAD]"
 
 
 def argument_digest(arguments: dict[str, Any]) -> str:
@@ -65,13 +83,15 @@ def store_receipt(
         "proof": _proof_state(state, contract.get("proof", "none")),
         "result_summary": _result_summary(result),
     }
-    atomic_write_text(path, json.dumps(receipt, indent=2, sort_keys=True, default=str) + "\n")
+    atomic_create_text(path, json.dumps(receipt, indent=2, sort_keys=True, default=str) + "\n")
     return receipt
 
 
 def _proof_state(state: str, required: str) -> str:
     if required == "none":
         return "none"
+    if required == "receipt":
+        return "execution_receipt"
     if state == "verified":
         return "readback_verified"
     if state == "verification_failed":

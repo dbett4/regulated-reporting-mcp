@@ -433,8 +433,15 @@ async def workiva_write_verified(
         verified += row_verified
         mismatches.extend(row_mismatches)
 
+    if mismatches:
+        status = "mismatch"
+    elif formula_cells_unverified:
+        status = "indeterminate"
+    else:
+        status = "verified"
+
     return json.dumps({
-        "status": "mismatch" if mismatches else "verified",
+        "status": status,
         "written_cells": written,
         "verified_cells": verified,
         "row_count": len(by_row),
@@ -443,6 +450,7 @@ async def workiva_write_verified(
         "success_on_readback_ranges": success_on_readback_ranges,
         "mismatches": mismatches,
         "formula_cells_unverified": formula_cells_unverified,
+        "verification_complete": not formula_cells_unverified,
     })
 
 

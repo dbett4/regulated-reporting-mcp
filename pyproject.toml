@@ -1,7 +1,7 @@
 [project]
 name = "regulated-reporting-mcp"
 version = "0.1.0"
-description = "Production MCP server for a regulated reporting platform (Workiva): OAuth2 client-credentials auth, async job polling, policy-gated writes, and receipt-backed readback verification — with a credential-free mock mode."
+description = "MCP server for a regulated reporting platform (Workiva): OAuth2 auth, guarded compact dispatch, typed proof states, and a credential-free mock mode."
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "Dave Bettner", email = "dbett4@gmail.com" }]
@@ -25,6 +25,7 @@ workiva-mcp-demo = "workiva_mcp.demo:main"
 
 [project.urls]
 Homepage = "https://davebettner.com"
+Repository = "https://github.com/dbett4/regulated-reporting-mcp"
 
 [build-system]
 requires = ["setuptools>=68"]

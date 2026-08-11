@@ -1,6 +1,9 @@
-"""
-FastMCP server — tool registration hub.
-All tool modules are imported here so their @mcp.tool() decorators fire.
+"""Raw FastMCP tool-registration hub.
+
+The compact dispatcher imports this registry to discover implementations. Directly
+serving this object exposes the raw tools and bypasses compact-dispatch confirmation,
+receipt, and result-artifact enforcement. The package entry point therefore defaults
+to the compact server and requires an explicit unsafe opt-in for this surface.
 """
 
 import logging
@@ -82,14 +85,10 @@ def set_session_scope(slug: str | None) -> None:
 mcp = FastMCP(
     "workiva-mcp",
     instructions=(
-        "MCP server for the Workiva platform (regulated financial reporting). "
-        "Tools are grouped by platform surface: spreadsheets/sheets/cells, "
-        "documents and sections, files and exports, range links, Wdata "
-        "(tables/queries/connections), chains, tasks, presentations, and "
-        "org/workspace admin. Writes are policy-gated: every registered tool "
-        "carries a reviewed contract (effect, confirmation, proof), and "
-        "verified-write tools read their own changes back before reporting "
-        "success."
+        "Raw Workiva implementation catalog for trusted development only. "
+        "Direct calls on this surface bypass the compact dispatcher's confirmation "
+        "and receipt middleware. Use workiva-mcp in its default compact mode for "
+        "policy-enforced operation."
     ),
 )
 
