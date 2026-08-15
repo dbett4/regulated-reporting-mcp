@@ -1,4 +1,4 @@
-# regulated-reporting-mcp
+# Regulated Reporting MCP
 
 [![CI](https://github.com/dbett4/regulated-reporting-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/dbett4/regulated-reporting-mcp/actions/workflows/ci.yml)
 
@@ -8,12 +8,26 @@
 > appear in this repository. Private client history remains confidential; public claims
 > are limited to inspectable artifacts.
 
-I built this MCP server around a problem I ran into while working on government
-financial reports in Workiva: a successful API response does not necessarily
-mean a change was applied, and an applied change has not necessarily been
-checked. The server keeps those outcomes separate, requires confirmation before
-writes, and records what happened without putting secrets or cell payloads in
-the receipt.
+## The problem this answers
+
+In regulated reporting work, three different things get collapsed into one “success”:
+
+1. the API accepted a request
+2. the change was actually applied
+3. somebody checked the result
+
+Those are not the same event. A 202 is not “done.” An applied write is not
+“verified.” And a tool should not get to skip human confirmation just because a
+model asked nicely.
+
+**One-line pitch:** give agents a small, guarded reporting API surface where
+writes need confirmation, results are read back, and receipts do not leak secrets
+or cell payloads.
+
+This MCP server was built around that failure mode from government financial
+reporting work in Workiva-shaped systems. The default path stays safe: three
+guarded tools up front; the full tool catalog stays behind an explicit unsafe
+opt-in.
 
 You can run the full path without Workiva credentials. The included mock covers
 the confirmation gate, rate-limit retry, asynchronous operation polling,
