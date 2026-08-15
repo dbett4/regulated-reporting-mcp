@@ -2,12 +2,6 @@
 
 [![CI](https://github.com/dbett4/regulated-reporting-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/dbett4/regulated-reporting-mcp/actions/workflows/ci.yml)
 
-> **Provenance.** Sanitized public extract published August 2026. Public git history
-> is publication history, not the original private development timeline. The City of
-> Riverton demo and all organizations are fictional. No client data or credentials
-> appear in this repository. Private client history remains confidential; public claims
-> are limited to inspectable artifacts.
-
 ## The problem this answers
 
 In regulated reporting work, three different things get collapsed into one “success”:
@@ -32,6 +26,9 @@ opt-in.
 You can run the full path without Workiva credentials. The included mock covers
 the confirmation gate, rate-limit retry, asynchronous operation polling,
 readback, and receipt creation in under a minute.
+
+> **Provenance.** Sanitized public extract published August 2026; git history is
+> publication history, not the original development timeline. Riverton demo and organizations are fictional — no client data, credentials, or private history appear here.
 
 ![Mock-mode demo: list, read, gated write, verified readback, receipt](docs/demo.gif)
 
