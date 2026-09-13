@@ -12,3 +12,4 @@ venv/
 .coverage
 htmlcov/
 exports/
+.amp/portals/*

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root"
+
+step() {
+  printf '\n[%ss] %s\n' "$SECONDS" "$1"
+}
+
+step "Checking Python toolchain"
+python3 -c 'import sys; assert sys.version_info >= (3, 11), "Python 3.11 or newer is required"'
+
+step "Creating the repository virtual environment"
+python3 -m venv .venv
+
+step "Installing the package and development dependencies"
+.venv/bin/python -m pip --disable-pip-version-check install -e ".[dev]"
+.venv/bin/python -m pip check
+
+step "Making the virtual environment available in repository login shells"
+profile_marker="# regulated-reporting-mcp virtual environment"
+if ! grep -Fqx "$profile_marker" "$HOME/.bash_profile" 2>/dev/null; then
+  printf -v quoted_repo_root '%q' "$repo_root"
+  cat >> "$HOME/.bash_profile" <<EOF
+
+$profile_marker
+_regulated_reporting_repo_root=$quoted_repo_root
+if [[ "\$PWD" == "\$_regulated_reporting_repo_root" || "\$PWD" == "\$_regulated_reporting_repo_root/"* ]]; then
+  export VIRTUAL_ENV="\$_regulated_reporting_repo_root/.venv"
+  case ":\$PATH:" in
+    *":\$VIRTUAL_ENV/bin:"*) ;;
+    *) export PATH="\$VIRTUAL_ENV/bin:\$PATH" ;;
+  esac
+fi
+unset _regulated_reporting_repo_root
+EOF
+fi
+
+step "Orb setup complete"
