@@ -90,6 +90,8 @@ def store_receipt(
 def _proof_state(state: str, required: str) -> str:
     if required == "none":
         return "none"
+    if state == "blocked":
+        return "not_dispatched"
     if required == "receipt":
         return "execution_receipt"
     if state == "verified":

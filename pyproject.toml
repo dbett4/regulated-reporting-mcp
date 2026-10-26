@@ -9,6 +9,10 @@ requires-python = ">=3.11"
 dependencies = [
     "mcp>=1.27.0,<2",
     "python-dotenv>=1.0.0",
+    "pydantic>=2.0,<3",
+    "cryptography>=46",
+    "openpyxl>=3.1.5,<4",
+    "defusedxml>=0.7.1,<1",
 ]
 
 [project.optional-dependencies]
@@ -22,6 +26,10 @@ dev = [
 workiva-mcp = "workiva_mcp.__main__:main"
 workiva-mcp-compact = "workiva_mcp.compact_server:main"
 workiva-mcp-demo = "workiva_mcp.demo:main"
+workiva-mcp-review = "workiva_mcp.reviewer:main"
+workiva-mcp-evaluate = "workiva_mcp.evaluation:main"
+workiva-mcp-packet = "workiva_mcp.evidence_packet:main"
+workiva-review-workbench = "workiva_mcp.workbench_server:main"
 
 [project.urls]
 Homepage = "https://davebettner.com"
@@ -35,7 +43,7 @@ build-backend = "setuptools.build_meta"
 include = ["workiva_mcp*"]
 
 [tool.setuptools.package-data]
-workiva_mcp = ["tool_contract_manifest.json"]
+workiva_mcp = ["tool_contract_manifest.json", "reporting_cases.json", "workbench_static/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

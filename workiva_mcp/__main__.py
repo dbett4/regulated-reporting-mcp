@@ -14,6 +14,10 @@ def _load_mcp():
     if mode in {"compact", "lean", "search"}:
         from workiva_mcp.compact_server import mcp
     elif mode == "full":
+        from workiva_mcp.approvals import approval_mode
+
+        if approval_mode():
+            raise RuntimeError("Reviewer-key mode requires the compact dispatcher; raw catalog is disabled")
         if not _enabled(_FULL_CATALOG_OPT_IN):
             raise RuntimeError(
                 "Refusing to expose the raw full catalog: it bypasses compact-dispatch "

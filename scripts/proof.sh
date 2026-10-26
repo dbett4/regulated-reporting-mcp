@@ -21,4 +21,10 @@ cd "$ROOT"
 WORKIVA_MCP_RECEIPT_DIR="$PROOF_TEMP/receipts" \
   "$PYTHON_BIN" -m workiva_mcp.demo
 
-echo "PROOF_PASS guarded_default=1 contracts=117 tests=126 offline_demo=pass"
+"$PYTHON_BIN" -m workiva_mcp.reporting_demo
+
+"$PYTHON_BIN" -m workiva_mcp.approval_demo
+
+"$PYTHON_BIN" -m workiva_mcp.evaluation
+
+echo "PROOF_PASS guarded_default=1 contracts=pass tests=pass offline_demo=pass tie_out_demo=pass approval_demo=pass evaluation=pass"

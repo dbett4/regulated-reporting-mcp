@@ -77,6 +77,25 @@ _SHEETS: list[dict[str, Any]] = [
             (2, 1): "1250000",
         },
     },
+    {
+        "id": "riverton-review-schedule",
+        "name": "Synthetic Tie-out Review Schedule",
+        "table_token": "tok-riverton-review",
+        "grid": {
+            (0, 0): "Synthetic review fixture — deliberate discrepancies",
+            (1, 0): "General Fund cash per supporting schedule",
+            (1, 1): "4195000",
+            (2, 0): "Beginning balance (thousands USD)",
+            (2, 1): "800",
+            (3, 0): "Additions (USD)",
+            (3, 1): "30000",
+            (4, 0): "Reductions (USD)",
+            (4, 1): "10000",
+            (5, 0): "Reported ending balance (USD)",
+            (5, 1): "825000",
+            (6, 0): "Missing supporting balance (intentionally blank)",
+        },
+    },
 ]
 
 # Live mutable state (module-level so a process sees consistent readbacks).

@@ -23,6 +23,7 @@ from importlib import import_module
 from pathlib import Path
 from typing import Any, Callable, Optional
 
+from workiva_mcp.approvals import EXECUTE_TOOL, approval_mode
 from workiva_mcp.receipt_store import store_receipt
 from workiva_mcp.result_store import store_result
 from workiva_mcp.tool_contracts import ToolContract, get_contract
@@ -39,7 +40,7 @@ from workiva_mcp.tool_contracts import ToolContract, get_contract
 
 READ_VERBS = {
     "list", "get", "read", "describe", "validate", "search", "find",
-    "preview", "render", "check", "status", "fetch",
+    "preview", "render", "check", "status", "fetch", "inspect",
 }
 DESTRUCTIVE_VERBS = {"delete", "remove", "clear", "drop", "purge", "reset", "truncate", "wipe", "unlink"}
 EXTERNAL_VERBS = {"send", "publish", "notify", "post"}
@@ -355,6 +356,13 @@ async def call_tool(
             "tool": definition.name,
             "hint": "Add a valid tool contract before enabling dispatch.",
         })
+    if approval_mode() and contract.effect != "read" and definition.name != EXECUTE_TOOL:
+        return json.dumps({
+            "error": "Reviewer-key mode permits mutations only through workiva_execute_correction",
+            "state": "blocked",
+            "policy_blocked": True,
+            "tool": definition.name,
+        })
     confirmed = {
         "none": True,
         "write": confirm_write,
@@ -384,6 +392,7 @@ async def call_tool(
         result = func(**arguments)
         if inspect.isawaitable(result):
             result = await result
+        original = _maybe_json(result) if isinstance(result, str) else result
         rendered = _serialize_result(
             result,
             tool_name=definition.name,
@@ -395,7 +404,8 @@ async def call_tool(
         if contract.effect == "read":
             return rendered
         parsed = _maybe_json(rendered)
-        state = _mutation_state(parsed)
+        # Presentation truncation/artifact storage must not change execution evidence.
+        state = _mutation_state(original)
         proof_incomplete = contract.proof == "readback" and state in {
             "applied_unverified",
             "indeterminate",
@@ -411,9 +421,11 @@ async def call_tool(
             contract={"effect": contract.effect, "confirmation": contract.confirmation, "proof": contract.proof},
             arguments=arguments,
             state=state,
-            result=parsed if parsed is not None else rendered,
+            result=original,
         )
         if isinstance(parsed, dict):
+            if isinstance(original, dict) and original.get("error"):
+                parsed.setdefault("error", original["error"])
             parsed.setdefault("state", state)
             if proof_incomplete:
                 parsed["state"] = state
@@ -467,10 +479,12 @@ def _mutation_state(parsed: Any) -> str:
     """Preserve tool-specific readback evidence without inventing verification."""
     if not isinstance(parsed, dict):
         return "applied_unverified"
+    state = str(parsed.get("state", "")).strip().lower()
+    if state in {"blocked", "verification_failed", "failed", "indeterminate"}:
+        return state
     if parsed.get("error"):
         return "failed"
-    state = str(parsed.get("state", "")).strip().lower()
-    if state in {"verified", "verification_failed", "failed", "indeterminate", "applied"}:
+    if state in {"verified", "applied"}:
         return "applied_unverified" if state == "applied" else state
     status = str(parsed.get("status", "")).strip().lower()
     if status == "verified":

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reporting review workbench</title>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <aside class="sidebar" aria-label="Workbench identity">
+      <div class="mark" aria-hidden="true">R</div>
+      <div class="side-name">Reporting<br />workbench</div>
+      <div class="side-foot">
+        Local review<br /><span>Immutable sources</span>
+      </div>
+    </aside>
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Financial reporting</p>
+          <h1>Review workbench</h1>
+        </div>
+        <div class="version" id="version-block" hidden>
+          <span>Current version</span>
+          <strong id="version-label"></strong>
+          <small id="predecessor-label"></small>
+          <button
+            id="choose-file-populated"
+            class="button secondary"
+            type="button"
+          >
+            Import XLSX version
+          </button>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Workbench views" role="tablist">
+        <button
+          class="tab active"
+          data-view="overview"
+          role="tab"
+          aria-selected="true"
+          aria-controls="overview-view"
+        >
+          Overview / Findings
+        </button>
+        <button
+          class="tab"
+          data-view="mappings"
+          role="tab"
+          aria-selected="false"
+          aria-controls="mappings-view"
+        >
+          Mappings
+        </button>
+        <button
+          class="tab"
+          data-view="history"
+          role="tab"
+          aria-selected="false"
+          aria-controls="history-view"
+        >
+          Changes &amp; history
+        </button>
+      </nav>
+
+      <main>
+        <div id="alert" class="message error" role="alert" hidden></div>
+        <div
+          id="status"
+          class="message success"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
+        <div id="checks-warning" class="message warning" role="status" hidden>
+          <strong>Checks are stale.</strong> Confirm the saved mappings and run
+          checks for this workbook version before recording a disposition.
+        </div>
+
+        <form id="import-form" class="import-form card" hidden>
+          <strong>Import an XLSX workbook version</strong>
+          <label
+            >Workbook label
+            <input
+              id="import-label"
+              required
+              maxlength="100"
+              placeholder="e.g. Q3 filing draft"
+          /></label>
+          <label
+            >XLSX file
+            <input
+              id="import-file"
+              type="file"
+              accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              required
+          /></label>
+          <small>Maximum file size: 10 MB.</small>
+          <div class="actions">
+            <button class="button primary" type="submit">Import workbook</button
+            ><button class="button ghost" type="button" id="cancel-import">
+              Cancel
+            </button>
+          </div>
+        </form>
+
+        <section id="empty-state" class="empty card" hidden>
+          <p class="eyebrow">Start a local review</p>
+          <h2>Bring reporting evidence into one clear workspace.</h2>
+          <p>
+            Load the Riverton example or import an XLSX workbook. Source
+            workbooks remain read-only; mappings, checks, and reviewer notes are
+            stored separately.
+          </p>
+          <div class="actions">
+            <button id="demo-v1" class="button primary">
+              Load Riverton v1
+            </button>
+            <button id="choose-file" class="button secondary">
+              Import XLSX
+            </button>
+            <a class="quiet-link" href="/api/demo-workbook?version=1" download
+              >Download v1 fixture</a
+            >
+          </div>
+        </section>
+
+        <section id="overview-view" class="view" role="tabpanel" hidden>
+          <div class="summary-row" id="summary-row"></div>
+          <div class="toolbar card">
+            <div>
+              <strong>Review queue</strong>
+              <p id="queue-caption">Run checks to create findings.</p>
+            </div>
+            <div class="actions">
+              <label class="compact"
+                >Status
+                <select id="status-filter">
+                  <option value="all">All</option>
+                  <option value="failed">Failed</option>
+                  <option value="not_evaluated">Not evaluated</option>
+                  <option value="passed">Passed</option>
+                </select></label
+              >
+              <label class="check"
+                ><input id="reopened-filter" type="checkbox" /> Reopened
+                only</label
+              >
+              <button id="run-checks" class="button primary">Run checks</button>
+              <button id="export" class="button secondary">
+                Export JSON packet
+              </button>
+            </div>
+          </div>
+          <div class="review-grid">
+            <section class="card finding-list" aria-labelledby="findings-title">
+              <h2 id="findings-title">Findings</h2>
+              <div id="findings"></div>
+            </section>
+            <section
+              class="card detail"
+              id="finding-detail"
+              aria-label="Finding detail"
+            >
+              <div id="detail-empty" class="placeholder">
+                <h2>Finding detail</h2>
+                <p>Select a finding to inspect its calculation and evidence.</p>
+              </div>
+              <div id="detail-content" hidden></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="mappings-view" class="view" role="tabpanel" hidden>
+          <div class="mapping-layout">
+            <div class="card prose mapping-intro">
+              <p class="eyebrow">Calculation contract</p>
+              <h2>Human-supplied mappings</h2>
+              <p>
+                Each rule identifies a reported sheet and cell, plus supporting
+                source cells. <strong>Scale</strong> normalizes display units;
+                <strong>sign</strong> controls whether supporting values add or
+                subtract.
+              </p>
+              <p>
+                The workbench does not invent missing formula results. If a
+                required source cannot be evaluated, the check is marked
+                <em>not evaluated</em>.
+              </p>
+            </div>
+            <form id="rules-form" class="card mapping-editor">
+              <div class="mapping-editor-head">
+                <label for="rule-select"><strong>Mapping rule</strong></label>
+                <div class="actions">
+                  <select id="rule-select" aria-label="Mapping rule"></select>
+                  <button id="add-rule" class="button secondary" type="button">New rule</button>
+                  <button id="remove-rule" class="button ghost danger" type="button">Remove rule</button>
+                </div>
+              </div>
+              <div id="rule-fields" class="rule-fields"></div>
+              <div class="mapping-save-row">
+                <span id="mapping-draft-state" class="help" role="status"></span>
+                <button id="refresh-mappings" class="button ghost" type="button">Refresh workspace (keep draft)</button>
+                <button id="rebase-draft" class="button secondary" type="button" hidden>I reviewed the retained draft against this revision</button>
+                <button class="button secondary" type="submit">Save all mapping drafts</button>
+              </div>
+              <details id="advanced-rules">
+                <summary>Advanced JSON editor</summary>
+                <label for="rules-json"><strong>All rules (editable JSON)</strong></label>
+                <textarea id="rules-json" rows="14" spellcheck="false" aria-describedby="rules-help"></textarea>
+                <p id="rules-help" class="help">Apply JSON edits to the visual draft before saving. Saving never changes the source workbook.</p>
+                <button id="apply-json" class="button ghost" type="button">Apply JSON to draft</button>
+                <button id="discard-json" class="button ghost" type="button">Discard JSON edits</button>
+              </details>
+            </form>
+            <section class="card sheet-panel" aria-labelledby="sheet-title">
+              <div class="sheet-head">
+                <div><p class="eyebrow">Workbook preview</p><h2 id="sheet-title">Select a cell</h2></div>
+                <div class="target-picker"><label for="mapping-target">Assign selected cell to</label><select id="mapping-target"></select></div>
+              </div>
+              <div class="sheet-controls">
+                <label>Worksheet <select id="sheet-select"></select></label>
+                <div class="pager" aria-label="Worksheet navigation">
+                  <button id="page-up" class="button ghost" type="button">↑ 20 rows</button>
+                  <button id="page-left" class="button ghost" type="button">← 8 columns</button>
+                  <button id="page-right" class="button ghost" type="button">8 columns →</button>
+                  <button id="page-down" class="button ghost" type="button">20 rows ↓</button>
+                </div>
+                <form id="cell-jump-form" class="jump-form">
+                  <label for="cell-jump">Jump to cell</label><input id="cell-jump" value="A1" pattern="[A-Za-z]{1,3}[1-9][0-9]{0,6}" maxlength="10" />
+                  <button class="button ghost" type="submit">Go</button>
+                </form>
+              </div>
+              <p id="preview-status" class="help" role="status"></p>
+              <div id="sheet-scroll" class="sheet-scroll" tabindex="0" aria-label="Worksheet cell preview"><table id="sheet-grid"></table></div>
+              <aside id="cell-inspector" class="cell-inspector" aria-live="polite"><strong>Cell inspector</strong><span>Choose a cell to inspect its raw and cached values.</span></aside>
+            </section>
+          </div>
+          <form id="confirm-form" class="card confirm-bar">
+            <div>
+              <strong>Reviewer confirmation</strong>
+              <p>Confirm the loaded rules before checks can run.</p>
+            </div>
+            <label
+              >Reviewer name
+              <input
+                id="mapping-reviewer"
+                required
+                maxlength="100"
+                autocomplete="name"
+            /></label>
+            <button class="button primary" type="submit">
+              Confirm mappings
+            </button>
+            <span id="confirmation-state" class="pill"></span>
+          </form>
+        </section>
+
+        <section id="history-view" class="view" role="tabpanel" hidden>
+          <div class="history-head">
+            <div>
+              <p class="eyebrow">Audit trail</p>
+              <h2>Changes &amp; history</h2>
+            </div>
+            <div class="demo-next">
+              <div class="actions">
+                <button id="demo-v2" class="button primary">
+                  Import Riverton v2</button
+                ><a
+                  class="quiet-link"
+                  href="/api/demo-workbook?version=2"
+                  download
+                  >Download v2 fixture</a
+                >
+              </div>
+              <small
+                >Demo sequence only; the server validates eligibility.</small
+              >
+            </div>
+          </div>
+          <div class="split">
+            <section class="card">
+              <h3>Source differences</h3>
+              <div id="changes"></div>
+            </section>
+            <section class="card">
+              <h3>Activity</h3>
+              <ol id="events" class="timeline"></ol>
+            </section>
+          </div>
+        </section>
+      </main>
+      <footer>
+        Local workspace · No authentication · Operator labels are not verified
+        identity · Dispositions are review notes, not approval.
+      </footer>
+    </div>
+    <script src="app.js" defer></script>
+  </body>
+</html>

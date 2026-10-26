@@ -2,6 +2,13 @@
 
 [![CI](https://github.com/dbett4/regulated-reporting-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/dbett4/regulated-reporting-mcp/actions/workflows/ci.yml)
 
+**Try the reporting review workbench:** run `workiva-review-workbench` after
+installation for a local browser workflow with XLSX imports, visual cell mapping,
+explicit mapping confirmation,
+evidence-linked dispositions, and reviews that reopen when workbook evidence
+changes. The two-version Riverton demo needs no Workiva credentials.
+See the [walkthrough, trust boundaries, and next-stage goals](docs/WORKBENCH.md).
+
 ## The problem this answers
 
 In regulated reporting work, three different things get collapsed into one “success”:
@@ -22,6 +29,38 @@ This MCP server was built around that failure mode from government financial
 reporting work in Workiva-shaped systems. The default path stays safe: three
 guarded tools up front; the full tool catalog stays behind an explicit unsafe
 opt-in.
+
+**Reporting review:** the read-only `workiva_check_tie_outs` tool checks mapped
+statement totals, signed balance rollforwards, and cross-sheet amounts using
+decimal arithmetic. Findings carry source cells, observed values, rules, and
+explicit `passed`, `failed`, or `not_evaluated` outcomes. Try the synthetic
+review with `python -m workiva_mcp.reporting_demo` or see the
+[tie-out guide](docs/REPORTING.md).
+
+**Reviewer-approved corrections:** propose one literal cell change, have an
+independent reviewer sign the exact before/after plan with the offline CLI,
+then recheck sources, execute, and verify readback. Configuring a reviewer
+public key blocks legacy mutation tools from bypassing approval. Try
+`python -m workiva_mcp.approval_demo` (simulated reviewer, synthetic data), or
+read the [approval setup and trust boundaries](docs/APPROVALS.md).
+
+**Interrupted-write recovery:** discover consumed correction attempts and inspect
+their saved plans against current source cells without retrying a write. The
+journal retains pre-submission evidence and operation locations when available.
+Recovery keeps current observations separate from the original execution outcome;
+the approval demo includes this failure scenario.
+
+**Reproducible evaluation:** `workiva-mcp-evaluate` runs 18 public, hand-annotated
+synthetic cases through the compact dispatcher and checks outcomes and exact
+amounts. It reports false alarms, missed discrepancies, incorrect passes, and
+write counts, with corpus and implementation hashes in its JSON export.
+See the [evaluation methodology and limits](docs/EVALUATION.md).
+
+**Reviewer evidence packets:** `workiva-mcp-packet` exports current findings,
+source evidence, linked correction plans, journal records, and separate recovery
+observations as JSON or Markdown. Packets remain unreviewed and never turn a
+matching current value into execution proof. See the
+[export workflow and evidence boundaries](docs/EVIDENCE_PACKETS.md).
 
 You can run the full path without Workiva credentials. The included mock covers
 the confirmation gate, rate-limit retry, asynchronous operation polling,
@@ -61,7 +100,7 @@ cannot tell, the dispatcher returns `indeterminate`.
    through both header and body operation locations, `@nextLink` and `next_url`
    pagination, parallel row-range reads, 429 backoff with `Retry-After`, and
    binary-safe xlsx/PDF exports (`http_client.py`, `reapi/`).
-3. **A write gate that is enforced in code.** All 117 registered tools have a
+3. **A write gate that is enforced in code.** All 122 registered tools have a
    reviewed `effect` / `confirmation` / `proof` contract. The compact dispatcher
    refuses tools with no contract, redacts mutation receipts, and treats missing
    readback as `indeterminate` (`tool_contracts.py`, `compact_server.py`,
@@ -73,7 +112,7 @@ cannot tell, the dispatcher returns `indeterminate`.
 flowchart LR
     C[MCP client] --> CS["compact server (3 tools):<br/>search / call / batch"]
     CS --> TC["tool contracts<br/>effect · confirmation · proof<br/>(fail-closed)"]
-    TC --> FS["raw implementation registry<br/>(117-tool catalog; not served by default)"]
+    TC --> FS["raw implementation registry<br/>(122-tool catalog; not served by default)"]
     FS --> T["tool families:<br/>cells · spreadsheets · documents ·<br/>files · linking · wdata · chains ·<br/>tasks · presentations · admin"]
     T --> H["http client<br/>OAuth2 · 401 retry · 429 backoff · pagination"]
     T -. selected mutation tools .-> EX["execution state machine<br/>202 ≠ applied ≠ verified"]
@@ -92,7 +131,7 @@ The choices that matter:
   which claims apply where.
 - The manifest, not a guess based on the tool name, controls dispatch.
   `scripts/generate_tool_contract_manifest.py --check` verifies exact coverage
-  of the 117-tool registry. Name-based classification is only a drift warning.
+  of the 122-tool registry. Name-based classification is only a drift warning.
 - A receipt records an attempt and its reported outcome. It is not readback.
   `proof: readback` requires a deterministic verification result; otherwise the
   state is `indeterminate` and the receipt says `pending_readback`.
@@ -114,8 +153,11 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 
 workiva-mcp-demo        # end-to-end mock demo: list → read → gated write → verified readback
-pytest                  # 126 credential-free tests
-./scripts/proof.sh      # lint + manifest + tests + full offline demo
+pytest                  # credential-free tests
+python -m workiva_mcp.reporting_demo  # read-only tie-outs with seeded discrepancies
+python -m workiva_mcp.approval_demo   # signed-plan, stale-source, and replay simulation
+workiva-mcp-evaluate    # scored synthetic reporting cases; --json exports evidence
+./scripts/proof.sh      # lint + manifest + tests + three demos + evaluation
 ```
 
 The demo uses **FakeWorkiva**, an in-memory transport with a synthetic "City of
@@ -152,9 +194,10 @@ workiva-mcp                     # guarded 3-tool compact facade (default)
 
 Credentials can also live in a `.env` file next to the package or pointed at with `WORKIVA_ENV_FILE`.
 
-The raw 117-tool FastMCP server remains available for isolated development and
+The raw 122-tool FastMCP server remains available for isolated development and
 for registry discovery inside the compact dispatcher. It bypasses confirmation
-and receipt handling, so it is deliberately awkward to start:
+and receipt handling, so it is deliberately awkward to start. It is disabled
+entirely when `WORKIVA_REVIEW_PUBLIC_KEY` is configured:
 
 ```bash
 WORKIVA_MCP_CATALOG_MODE=full \
@@ -166,7 +209,7 @@ Do not expose that mode to an autonomous or untrusted caller.
 
 ## Tests
 
-All 126 tests run without credentials. Transport tests use injected fakes;
+All tests run without credentials. Transport tests use injected fakes;
 `tests/test_mock_mode.py` drives the actual tool stack through FakeWorkiva.
 Entrypoint tests check that compact mode is the default and that full-catalog
 mode fails unless both unsafe flags are present. Contract tests cover formula

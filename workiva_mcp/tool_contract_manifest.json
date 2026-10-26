@@ -24,6 +24,11 @@
     "effect": "write",
     "proof": "receipt"
   },
+  "workiva_check_tie_outs": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
   "workiva_copy_document_section": {
     "confirmation": "write",
     "effect": "write",
@@ -103,6 +108,11 @@
     "confirmation": "write",
     "effect": "write",
     "proof": "receipt"
+  },
+  "workiva_execute_correction": {
+    "confirmation": "write",
+    "effect": "write",
+    "proof": "readback"
   },
   "workiva_export_document": {
     "confirmation": "none",
@@ -234,6 +244,11 @@
     "effect": "write",
     "proof": "receipt"
   },
+  "workiva_inspect_correction": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
   "workiva_list_chain_run_nodes": {
     "confirmation": "none",
     "effect": "read",
@@ -245,6 +260,11 @@
     "proof": "none"
   },
   "workiva_list_chains": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
+  },
+  "workiva_list_correction_attempts": {
     "confirmation": "none",
     "effect": "read",
     "proof": "none"
@@ -338,6 +358,11 @@
     "confirmation": "write",
     "effect": "write",
     "proof": "receipt"
+  },
+  "workiva_preview_correction": {
+    "confirmation": "none",
+    "effect": "read",
+    "proof": "none"
   },
   "workiva_publish_links": {
     "confirmation": "external",
